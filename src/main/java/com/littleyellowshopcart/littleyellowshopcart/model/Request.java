@@ -1,5 +1,7 @@
 package com.littleyellowshopcart.littleyellowshopcart.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 import javax.persistence.Id;
 import java.util.ArrayList;

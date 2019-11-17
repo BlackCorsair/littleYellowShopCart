@@ -11,6 +11,11 @@
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Jquery -->
+    <script src="vendor/jquery/jquery.js"></script>
+
+    <!-- ShitScript -->
+    <script src="vendor/scripts/app.js"></script>
 </head>
 
 <body>
@@ -25,13 +30,12 @@
 </div>
 <br>
 <br>
+
 <div class="container">
     <div class="d-block">
         <div class="col-5 mx-auto">
-            <ul>
-                {{#requests}}
-                <li>{{id}}: {{title}}</li>
-                {{/requests}}
+            <ul id="requestList">
+                <script>getRequests();</script>
             </ul>
         </div>
     </div>
