@@ -24,10 +24,13 @@ public class MainPageController {
 
     @PostConstruct
     public void init() {
+        Random rand = new Random();
         for (String random : this.randomVisitor) {
-            Element e = new Element(random);
+            Element e = new Element(this.randomVisitor.get(rand.nextInt(this.randomVisitor.size())));
+            Element e2 = new Element(this.randomVisitor.get(rand.nextInt(this.randomVisitor.size())));
             Request r = new Request(random);
             r.addElement(e);
+            r.addElement(e2);
             rr.save(r);
         }
     }
