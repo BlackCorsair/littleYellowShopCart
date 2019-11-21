@@ -1,7 +1,5 @@
 package com.littleyellowshopcart.littleyellowshopcart.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
