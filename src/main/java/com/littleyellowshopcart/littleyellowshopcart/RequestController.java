@@ -1,5 +1,6 @@
 package com.littleyellowshopcart.littleyellowshopcart;
 
+import com.littleyellowshopcart.littleyellowshopcart.model.Element;
 import com.littleyellowshopcart.littleyellowshopcart.model.Request;
 import org.aspectj.asm.IElementHandleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,20 @@ public class RequestController {
         try {
             Request request = rr.findById(id).get();
             String out = request.deleteElementById(element);
+            rr.save(request);
+            return out;
+        } catch (Exception e) {
+            return "{'status': 501}";
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:8080/requests/*")
+    @PostMapping("/requests/{id}/{elementName}")
+    public String addElementToRequest(@PathVariable("id") long id, @PathVariable("elementName") String elementName) {
+        try {
+            Request request = rr.findById(id).get();
+            Element element = new Element(elementName);
+            String out = request.addElement(element);
             rr.save(request);
             return out;
         } catch (Exception e) {

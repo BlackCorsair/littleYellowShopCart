@@ -38,9 +38,20 @@ public class Request {
             }
         } catch (Exception e) {
             System.out.println(e);
-            return "{\"status\": 500}";
+            return "{\"status\": 501}";
         }
-        return "{\"status\": 500}";
+        return "{\"status\": 501}";
+    }
+
+    public String addElementUnchecked(String name) {
+        try {
+            Element element = new Element(name);
+            this.elements.add(element);
+            return "{\"status\": 200}";
+        } catch (Exception e) {
+            System.out.println(e);
+            return "{\"status\": 501}";
+        }
     }
 
     public long getId() {
@@ -59,7 +70,13 @@ public class Request {
         return elements;
     }
 
-    public void addElement(Element element) {
-        this.elements.add(element);
+    public String addElement(Element element) {
+        try {
+            this.elements.add(element);
+            return "{\"status\": 200}";
+        } catch (Exception e) {
+            System.out.println(e);
+            return "{\"status\": 501}";
+        }
     }
 }
