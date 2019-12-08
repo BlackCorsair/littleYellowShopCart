@@ -65,4 +65,10 @@ function collapseRequest(request_title, request_id) {
 
 async function deleteElement(request_id, element_id) {
     console.log(`delete ${url}/requests/${request_id}/${element_id}`);
+    const response = await fetch(`${url}/requests/${request_id}/${element_id}`, {method: "DELETE",});
+    const request = await response.json();
+    if (request.status != "200") {
+        console.log("Something went wrong server side");
+        console.log(request);
+    }
 }
