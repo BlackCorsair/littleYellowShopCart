@@ -61,3 +61,14 @@ async function deleteElement(html_element, request_id, element_id) {
     }
     await getDetails(html_element, request_id);
 }
+
+async function addElement(html_element, request_id, element_name) {
+    console.log(`post ${url}/requests/${request_id}/${element_name}`);
+    const response = await fetch(`${url}/requests/${request_id}/${element_name}`, {method: "POST",});
+    const request = await response.json();
+    if (request.status != "200") {
+        console.log("Something went wrong server side");
+        console.log(request);
+    }
+    await getDetails(html_element, request_id);
+}
