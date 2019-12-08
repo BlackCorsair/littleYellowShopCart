@@ -24,6 +24,25 @@ public class Request {
         this.title = title;
     }
 
+    public String deleteElementById(long id) {
+
+        try {
+            for (Element element : this.elements) {
+                if (element.id == id) {
+                    System.out.println("removing element: " + element.id);
+                    this.elements.remove(element);
+                    for (Element e : this.elements)
+                        System.out.println("element: " + e.id);
+                    return "{\"status\": 200}";
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return "{\"status\": 500}";
+        }
+        return "{\"status\": 500}";
+    }
+
     public long getId() {
         return id;
     }
