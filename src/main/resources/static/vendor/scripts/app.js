@@ -51,18 +51,6 @@ async function getDetails(html_element, id) {
     $(html_element).append(formTemplate);
 }
 
-// doesn't work as I can't do: onclick="collapseRequest(${html_element}, ...)
-function collapseRequest(request_title, request_id) {
-    console.log("colapseRequest");
-    $().html(
-        `<a   href="javascript:void(0)"
-                    onclick="getDetails(${e.target}, ${request_id})"
-                    class="list-group-item list-group-item-action">
-                    Title: ${request_title}
-                    </a>`
-    );
-}
-
 async function deleteElement(html_element, request_id, element_id) {
     console.log(`delete ${url}/requests/${request_id}/${element_id}`);
     const response = await fetch(`${url}/requests/${request_id}/${element_id}`, {method: "DELETE",});
