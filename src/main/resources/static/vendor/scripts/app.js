@@ -9,7 +9,7 @@ function getRequests() {
                     `<a     href="javascript:void(0)"
                             onclick="getDetails( $(this), ${request.id})"
                             class="list-group-item list-group-item-action">
-                            Title: ${request.title}
+                            ${request.title}
                             </a>`
                 );
             });
@@ -23,32 +23,32 @@ function getRequests() {
 async function getDetails(html_element, id) {
     const response = await fetch(`${url}/requests/${id}`);
     const request = await response.json();
+    let formTemplate = document.getElementById('form-template').content.cloneNode(true);
     $(html_element).html(
         `<a href="javascript:void(0)"
                   onclick="getRequests()">
-                Title: ${request.title}
+                 ${request.title}
                 </a>`
     );
+    // assigment constraint
     if (request.elements.length >= 2) {
         request.elements.forEach(function (element) {
-            $(html_element).append(
-                `<a class="list-group-item list-group-item-action">
-                    element: ${element.name}
-                </a>
-                <button type="button" 
-                        onclick="deleteElement(${request.id}, ${element.id})"
-                        class="btn btn-danger">
-                    delete
-                </button>`
-            );
+            // load template and then changes the content of the item list and adds the delete function to the button
+            let elementTemplate = document.getElementById('multiple-element-template').content.cloneNode(true);
+            elementTemplate.querySelector("a").innerHTML = element.name;
+            elementTemplate.querySelector("button").addEventListener('click', function () {
+                deleteElement(html_element, request.id, element.id);
+            }, true);
+            $(html_element).append(elementTemplate);
         });
     } else {
-        $(html_element).append(
-            `<a class="list-group-item list-group-item-action">
-                    element: ${request.elements[0].name}
-                </a>`
-        );
+        let elementTemplate = document.getElementById('single-element-template').content.cloneNode(true);
+        elementTemplate.getElementById("element").innerHTML = `${request.elements[0].name}`;
+        $(html_element).append(elementTemplate);
     }
+    // adds a new line and the 'new item' form below the item
+    $(html_element).append('<br>');
+    $(html_element).append(formTemplate);
 }
 
 // doesn't work as I can't do: onclick="collapseRequest(${html_element}, ...)
@@ -63,7 +63,7 @@ function collapseRequest(request_title, request_id) {
     );
 }
 
-async function deleteElement(request_id, element_id) {
+async function deleteElement(html_element, request_id, element_id) {
     console.log(`delete ${url}/requests/${request_id}/${element_id}`);
     const response = await fetch(`${url}/requests/${request_id}/${element_id}`, {method: "DELETE",});
     const request = await response.json();
@@ -71,4 +71,5 @@ async function deleteElement(request_id, element_id) {
         console.log("Something went wrong server side");
         console.log(request);
     }
+    await getDetails(html_element, request_id);
 }
