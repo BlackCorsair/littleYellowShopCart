@@ -24,12 +24,14 @@
     <div class="row">
         <div class="col-lg-12 text-center">
             <h1 class="mt-5">A Little Yellow Shopping Cart</h1>
-            <h2>Greetings {{visitor}}</h2>
+            <h2 id="visitor">Greetings {{visitor}}</h2>
         </div>
     </div>
 </div>
 <br>
 <br>
+
+<!-- BODY APP -->
 
 <div class="container">
     <div class="d-block">
@@ -38,6 +40,36 @@
             </ul>
     </div>
 </div>
+
+<!-- TEMPLATES -->
+
+<template id="single-element-template">
+    <a id="element" class="list-group-item list-group-item-action">
+        toReplace
+    </a>
+</template>
+
+<template id="multiple-element-template">
+    <a class="list-group-item list-group-item-action">
+        toReplace
+    </a>
+    <!-- add onclick function afterwards -->
+    <button type="button"
+            class="btn btn-danger">
+        delete
+    </button>
+</template>
+
+<template id="form-template">
+    <form>
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="new item">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</template>
 
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.js"></script>
