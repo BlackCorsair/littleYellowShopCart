@@ -6,11 +6,14 @@ function getRequests() {
             $('#requestList').html("");
             json.forEach(function (request) {
                 $('#requestList').append(
-                    `<a     href="javascript:void(0)"
-                            onclick="getDetails( $(this), ${request.id})"
+                    `<a     
+                            id="request-${request.id}"
+                            href="javascript:void(0)"
                             class="list-group-item list-group-item-action">
                             ${request.title}
-                            </a>`
+                            </a>
+                    <button class="btn btn-info" onclick="getDetails(${request.id})">show details</button>
+                    <button class="btn btn-info" onclick="getRequests()">hide details</button>`
                 );
             });
         })
@@ -20,15 +23,19 @@ function getRequests() {
         });
 }
 
-async function getDetails(html_element, id) {
+async function getDetails(id) {
+    let html_element = $(`#request-${id}`)
     const response = await fetch(`${url}/requests/${id}`);
     const request = await response.json();
     let formTemplate = document.getElementById('form-template').content.cloneNode(true);
+    formTemplate.querySelector("form").setAttribute("action", `/requests/${id}/`);
+    formTemplate.querySelector("form").addEventListener('submit', function (event) {
+        event.preventDefault();
+        let item_name = $(this).find('input[name="name"]').val();
+        addElement(request.id, item_name);
+    });
     $(html_element).html(
-        `<a href="javascript:void(0)"
-                  onclick="getRequests()">
-                 ${request.title}
-                </a>`
+        `<a>${request.title}</a>`
     );
     // assigment constraint
     if (request.elements.length >= 2) {
@@ -59,10 +66,10 @@ async function deleteElement(html_element, request_id, element_id) {
         console.log("Something went wrong server side");
         console.log(request);
     }
-    await getDetails(html_element, request_id);
+    await getDetails(request_id);
 }
 
-async function addElement(html_element, request_id, element_name) {
+async function addElement(request_id, element_name) {
     console.log(`post ${url}/requests/${request_id}/${element_name}`);
     const response = await fetch(`${url}/requests/${request_id}/${element_name}`, {method: "POST",});
     const request = await response.json();
@@ -70,5 +77,22 @@ async function addElement(html_element, request_id, element_name) {
         console.log("Something went wrong server side");
         console.log(request);
     }
-    await getDetails(html_element, request_id);
+    await getDetails(request_id);
 }
+
+$("#submitForm").submit(function (event) {
+    event.preventDefault(); //prevent default action
+    const post_url = $(this).attr("action"); //get form action url
+    const request_method = $(this).attr("method"); //get form GET/POST method
+    const form_data = new FormData(this); //Creates new FormData object
+    $.ajax({
+        url: post_url,
+        type: request_method,
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false
+    }).done(function (response) { //
+        $("#server-results").html(response);
+    });
+});
