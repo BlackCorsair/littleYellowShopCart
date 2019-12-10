@@ -34,6 +34,20 @@
 <!-- BODY APP -->
 
 <div class="container">
+    <form method="post">
+        <div class="form-row">
+            <div class="col-4">
+                <input type="text" name="request" class="form-control" placeholder="Request Title">
+            </div>
+            <div class="col">
+                <input type="text" name="item" class="form-control" placeholder="Item name">
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="submit">Add new request</button>
+            </div>
+        </div>
+    </form>
+    <br>
     <div class="d-block">
             <ul id="requestList">
                 <script>getRequests();</script>

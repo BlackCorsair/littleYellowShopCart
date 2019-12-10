@@ -13,7 +13,8 @@ function getRequests() {
                             ${request.title}
                             </a>
                     <button class="btn btn-info" onclick="getDetails(${request.id})">show details</button>
-                    <button class="btn btn-info" onclick="getRequests()">hide details</button>`
+                    <button class="btn btn-info" onclick="getRequests()">hide details</button>
+                    <button class="btn btn-danger" onclick="deleteRequest(${request.id})">delete request</button>`
                 );
             });
         })
@@ -44,7 +45,7 @@ async function getDetails(id) {
             let elementTemplate = document.getElementById('multiple-element-template').content.cloneNode(true);
             elementTemplate.querySelector("a").innerHTML = element.name;
             elementTemplate.querySelector("button").addEventListener('click', function () {
-                deleteElement(html_element, request.id, element.id);
+                deleteElement(request.id, element.id);
             }, true);
             $(html_element).append(elementTemplate);
         });
@@ -58,7 +59,7 @@ async function getDetails(id) {
     $(html_element).append(formTemplate);
 }
 
-async function deleteElement(html_element, request_id, element_id) {
+async function deleteElement(request_id, element_id) {
     console.log(`delete ${url}/requests/${request_id}/${element_id}`);
     const response = await fetch(`${url}/requests/${request_id}/${element_id}`, {method: "DELETE",});
     const request = await response.json();
@@ -67,6 +68,19 @@ async function deleteElement(html_element, request_id, element_id) {
         console.log(request);
     }
     await getDetails(request_id);
+}
+
+async function deleteRequest(request_id) {
+    if (confirm("Do you really want to delete the request?")) {
+        console.log(`delete ${url}/requests/${request_id}`);
+        const response = await fetch(`${url}/requests/${request_id}`, {method: "DELETE",});
+        const request = await response.json();
+        if (request.status != "200") {
+            console.log("Something went wrong server side");
+            console.log(request);
+        }
+    }
+    await getRequests();
 }
 
 async function addElement(request_id, element_name) {

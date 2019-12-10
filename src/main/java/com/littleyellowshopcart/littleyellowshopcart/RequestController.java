@@ -2,10 +2,9 @@ package com.littleyellowshopcart.littleyellowshopcart;
 
 import com.littleyellowshopcart.littleyellowshopcart.model.Element;
 import com.littleyellowshopcart.littleyellowshopcart.model.Request;
-import org.aspectj.asm.IElementHandleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import org.json.*;
 import java.util.List;
 
 
@@ -37,9 +36,9 @@ public class RequestController {
     public String deleteRequestById(@PathVariable("id") long id) {
         try {
             rr.deleteById(id);
-            return "{'status': 200}";
+            return "{\"status\": 200}";
         } catch (Exception e) {
-            return "{'status': 501}";
+            return "{\"status\": 501}";
         }
     }
 
@@ -65,6 +64,20 @@ public class RequestController {
             String out = request.addElement(element);
             rr.save(request);
             return out;
+        } catch (Exception e) {
+            return "{'status': 501}";
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:8080/requests/*")
+    @PostMapping("/newRequest")
+    public String newRequest(@RequestBody String requestString) {
+        try {
+            JSONObject requestJson = new JSONObject(requestString);
+            Request request = new Request(requestJson.get("request").toString());
+            request.addElement(new Element(requestJson.get("element").toString()));
+            rr.save(request);
+            return "{\"status\": 200}";
         } catch (Exception e) {
             return "{'status': 501}";
         }
