@@ -34,13 +34,13 @@
 <!-- BODY APP -->
 
 <div class="container">
-    <form method="post">
+    <form id="new-request-form" method="post" action="/newRequest">
         <div class="form-row">
             <div class="col-4">
                 <input type="text" name="request" class="form-control" placeholder="Request Title">
             </div>
             <div class="col">
-                <input type="text" name="item" class="form-control" placeholder="Item name">
+                <input type="text" name="element" class="form-control" placeholder="Item name">
             </div>
             <div class="col">
                 <button class="btn btn-primary" type="submit">Add new request</button>
@@ -84,6 +84,30 @@
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- this only works if it's here -->
+<script>
+    $("#new-request-form").submit(function (event) {
+        event.preventDefault();
+        console.log("did something");
+        const post_url = $(this).attr("action");
+        const request_method = $(this).attr("method");
+        const request_title = $(this).find('input[name="request"]').val();
+        const element_name = $(this).find('input[name="element"]').val();
+        const form_data = `{request: "${request_title}", element: "${element_name}"}`;
+        console.log(form_data);
+        $.ajax({
+            url: post_url,
+            type: request_method,
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false
+        }).done(function (response) { //
+            getRequests();
+        });
+    });
+</script>
 
 </body>
 

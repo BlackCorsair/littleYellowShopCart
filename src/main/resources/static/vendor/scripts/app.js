@@ -93,20 +93,3 @@ async function addElement(request_id, element_name) {
     }
     await getDetails(request_id);
 }
-
-$("#submitForm").submit(function (event) {
-    event.preventDefault(); //prevent default action
-    const post_url = $(this).attr("action"); //get form action url
-    const request_method = $(this).attr("method"); //get form GET/POST method
-    const form_data = new FormData(this); //Creates new FormData object
-    $.ajax({
-        url: post_url,
-        type: request_method,
-        data: form_data,
-        contentType: false,
-        cache: false,
-        processData: false
-    }).done(function (response) { //
-        $("#server-results").html(response);
-    });
-});

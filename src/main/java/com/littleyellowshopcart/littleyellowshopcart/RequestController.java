@@ -72,6 +72,7 @@ public class RequestController {
     @CrossOrigin(origins = "http://localhost:8080/requests/*")
     @PostMapping("/newRequest")
     public String newRequest(@RequestBody String requestString) {
+        System.out.println(requestString);
         try {
             JSONObject requestJson = new JSONObject(requestString);
             Request request = new Request(requestJson.get("request").toString());
