@@ -1,4 +1,4 @@
-var url = "http://localhost:8080"
+var url = `http://${window.location.host}`
 
 function getRequests() {
     $.getJSON(url + "/requests")
