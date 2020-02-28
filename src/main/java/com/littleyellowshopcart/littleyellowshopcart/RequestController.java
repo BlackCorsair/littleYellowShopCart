@@ -13,7 +13,7 @@ public class RequestController {
     @Autowired
     private RequestRepository rr;
 
-    @CrossOrigin(origins = "http://localhost:8080/requests/*")
+    @CrossOrigin
     @GetMapping("/requests/{id}")
     public Request getRequestById(@PathVariable("id") long id) {
 
@@ -25,13 +25,13 @@ public class RequestController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:8080/requests")
+    @CrossOrigin
     @GetMapping("/requests")
     public List<Request> getRequest() {
         return rr.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:8080/requests/*")
+    @CrossOrigin
     @DeleteMapping("/requests/{id}")
     public String deleteRequestById(@PathVariable("id") long id) {
         try {
@@ -42,7 +42,7 @@ public class RequestController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:8080/requests/*")
+    @CrossOrigin
     @DeleteMapping("/requests/{id}/{item}")
     public String deleteRequestElementById(@PathVariable("id") long id, @PathVariable("item") long element) {
         try {
@@ -55,7 +55,7 @@ public class RequestController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:8080/requests/*")
+    @CrossOrigin
     @PostMapping("/requests/{id}/{elementName}")
     public String addElementToRequest(@PathVariable("id") long id, @PathVariable("elementName") String elementName) {
         try {
@@ -69,7 +69,7 @@ public class RequestController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:8080/requests/*")
+    @CrossOrigin
     @PostMapping("/newRequest")
     public String newRequest(@RequestBody String requestString) {
         System.out.println(requestString);

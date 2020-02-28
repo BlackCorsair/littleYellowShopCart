@@ -35,7 +35,7 @@ public class MainPageController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:8080/*")
+    @CrossOrigin
     @GetMapping("/")
     public String greeter(Model model) {
         model.addAttribute("visitor", this.randomVisitor.get(new Random().nextInt(this.randomVisitor.size())));
